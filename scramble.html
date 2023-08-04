@@ -1,0 +1,82 @@
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title></title>
+		<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Montserrat:ital,wght@1,600&family=Ubuntu:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+		
+		<link rel="stylesheet" type="text/css" href="style.css">
+	
+	</head>
+	<body>
+
+		<header>
+			<h1>Guess The Word</h1>
+		</header>
+
+		<section>
+			<div class = "gameArea">
+				<h3 class = "msg"></h3>
+				<input type="text" class = "hidden">
+				<button class="btn">Click here to start</button>
+			</div>
+		</section>
+
+		<script>
+			const msg = document.querySelector('.msg');
+			const guess =  document.querySelector('input');
+			const btn = document.querySelector('.btn');
+            let play = false;
+			let sWords = ['virat','sachin','yuvraj' , 'ponting' ,'harbhajan','kumble','dhoni','rohit','malinga','maxwell' ];
+			const createNewWords = () =>{
+                  let ranNum = Math.floor(Math.random() * sWords.length);
+				//   console.log(ranNum);
+				  let newTempSwords=sWords[ranNum];
+				//   console.log(newTempSwords.split(""));
+				  return newTempSwords;
+			}
+			 const scrambleWords = (arr) =>{
+				for(let i = arr.length-1;i>0;i--)
+				{
+					let temp = arr[i];
+					// console.log(temp);
+					let j = Math.floor(Math.random()*(i+1));
+					arr[i] = arr[j];
+					arr[j] = temp;
+
+				}
+				return arr;
+			 }
+
+
+			btn.addEventListener('click', function(){
+			if(!play)
+			{
+				play = true;
+				btn.innerHTML = "Guess";
+				guess.classList.toggle('hidden');
+				newWords=createNewWords();
+				ranWords = scrambleWords(newWords.split("")).join("");
+				// console.log(ranWords.join(""));
+				msg.innerHTML = `Guess the Word ${ranWords}`;
+			}else{
+				let tempWord = guess.value;
+				if(tempWord==newWords)
+				{
+					play = false;
+					msg.innerHTML = `Great! Its ${newWords}`;
+					btn.innerHTML = "Start Again";
+					guess.classList.toggle('hidden');
+					guess.value = "";
+				}
+				else{
+					msg.innerHTML = `Its incorrect! Try again ${ranWords} `;
+				}
+			}
+		})
+
+
+		</script>
+	
+	</body>
+	</html>
